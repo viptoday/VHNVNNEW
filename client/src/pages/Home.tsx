@@ -3,6 +3,7 @@ import Services from "@/components/landing/Services";
 import GlobalReach from "@/components/landing/GlobalReach";
 import Airports from "@/components/landing/Airports";
 import CustomTour from "@/components/landing/CustomTour";
+import Booking from "@/components/landing/Booking";
 import Footer from "@/components/landing/Footer";
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
         <Services />
         <Airports />
         <CustomTour />
+        <Booking />
       </main>
 
       <Footer />

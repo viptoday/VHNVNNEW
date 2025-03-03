@@ -1,4 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const services = [
   {
@@ -32,13 +33,13 @@ const services = [
     ]
   },
   {
-    title: "高端酒店預訂",
+    title: "木排遊覽",
     image: "https://images.unsplash.com/photo-1566073771259-6a8506099945",
     features: [
-      "精選四五星級高品質酒店",
-      "獨家優惠房價與升級禮遇",
-      "專屬訂制套餐服務",
-      "特定節假日住宿送餐優惠"
+      "精選景點遊覽路線",
+      "專業導遊講解服務",
+      "特色美食品嚐體驗",
+      "舒適安全的遊覽體驗"
     ]
   },
   {
@@ -96,6 +97,14 @@ export default function Services() {
                     {feature}
                   </p>
                 ))}
+                <div className="mt-6">
+                  <Button 
+                    className="w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
+                    onClick={() => window.location.href = '#booking'}
+                  >
+                    預約服務
+                  </Button>
+                </div>
               </CardContent>
             </Card>
           ))}
