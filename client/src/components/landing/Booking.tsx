@@ -76,11 +76,13 @@ export default function Booking() {
                 <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">簽證服務</h3>
                 <div>
                   <h4 className="mb-2">請選擇：簽證類型</h4>
-                  <Button
-                    className="w-full bg-[#0F1F3F] text-white"
-                  >
-                    電子簽證
-                  </Button>
+                  <div className="inline-flex flex-wrap gap-2">
+                    <Button
+                      className="px-6 bg-[#0F1F3F] text-white"
+                    >
+                      電子簽證
+                    </Button>
+                  </div>
                 </div>
 
                 <div>
@@ -147,7 +149,7 @@ export default function Booking() {
                 <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">機場VIP通關</h3>
                 <div>
                   <h4 className="mb-2">機場選擇</h4>
-                  <div className="space-y-2">
+                  <div className="inline-flex flex-wrap gap-2">
                     {[
                       { id: "hanoi", label: "河內機場" },
                       { id: "hochiminh", label: "胡志明市機場" },
@@ -157,7 +159,7 @@ export default function Booking() {
                       <Button
                         key={airport.id}
                         variant={selectedOptions.airport === airport.id ? "default" : "outline"}
-                        className={`w-full ${
+                        className={`px-6 ${
                           selectedOptions.airport === airport.id
                             ? "bg-[#0F1F3F] text-white"
                             : "border-gray-200 hover:border-[#0F1F3F]"
@@ -237,7 +239,7 @@ export default function Booking() {
                 <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">機場接送</h3>
                 <div>
                   <h4 className="mb-2">上車地點</h4>
-                  <div className="space-y-2">
+                  <div className="inline-flex flex-wrap gap-2">
                     {[
                       { id: "hanoi", label: "河內" },
                       { id: "hochiminh", label: "胡志明" },
@@ -247,7 +249,7 @@ export default function Booking() {
                       <Button
                         key={location.id}
                         variant={selectedOptions.airport === location.id ? "default" : "outline"}
-                        className={`w-full ${
+                        className={`px-6 ${
                           selectedOptions.airport === location.id
                             ? "bg-[#0F1F3F] text-white"
                             : "border-gray-200 hover:border-[#0F1F3F]"
@@ -262,7 +264,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">車型選擇</h4>
-                  <div className="inline-flex flex-wrap gap-2"> {/* Changed to inline-flex */}
+                  <div className="inline-flex flex-wrap gap-2">
                     {[
                       { id: "sedan", label: "轎車 (3人座)" },
                       { id: "suv", label: "SUV/MPV (5人座)" },
@@ -287,7 +289,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">司機語言能力</h4>
-                  <div className="inline-flex flex-wrap gap-2"> {/* Changed to inline-flex */}
+                  <div className="inline-flex flex-wrap gap-2">
                     {[
                       { id: "local", label: "僅會地話" },
                       { id: "chinese", label: "中文" },
@@ -327,7 +329,7 @@ export default function Booking() {
                 <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">包車服務</h3>
                 <div>
                   <h4 className="mb-2">城市</h4>
-                  <div className="space-y-2">
+                  <div className="inline-flex flex-wrap gap-2">
                     {[
                       { id: "hanoi", label: "河內" },
                       { id: "hochiminh", label: "胡志明" },
@@ -337,7 +339,7 @@ export default function Booking() {
                       <Button
                         key={location.id}
                         variant={selectedOptions.airport === location.id ? "default" : "outline"}
-                        className={`w-full ${
+                        className={`px-6 ${
                           selectedOptions.airport === location.id
                             ? "bg-[#0F1F3F] text-white"
                             : "border-gray-200 hover:border-[#0F1F3F]"
@@ -352,7 +354,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">車型</h4>
-                  <div className="inline-flex flex-wrap gap-2"> {/* Changed to inline-flex */}
+                  <div className="inline-flex flex-wrap gap-2">
                     {[
                       { id: "sedan2", label: "轎車 (2人2件手)" },
                       { id: "suv4", label: "SUV/MPV (4人4件手)" },
@@ -377,7 +379,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">司機語言能力</h4>
-                  <div className="inline-flex flex-wrap gap-2"> {/* Changed to inline-flex */}
+                  <div className="inline-flex flex-wrap gap-2">
                     {[
                       { id: "local", label: "僅會地話" },
                       { id: "chinese", label: "中文" },
