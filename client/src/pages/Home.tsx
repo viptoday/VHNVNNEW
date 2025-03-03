@@ -8,11 +8,11 @@ import Footer from "@/components/landing/Footer";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-gradient-to-r from-primary to-[#0F6E9A] text-white py-4">
+      <header className="bg-[#0F1F3F] text-white py-4">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center">
-            <div className="text-3xl font-bold tracking-wider">
-              VIP<span className="text-[#D4B254]">TODAY</span>
+            <div className="text-3xl font-bold tracking-[0.2em]">
+              VIPTODAY
             </div>
             <div className="text-sm tracking-wide opacity-90">
               Beyond travel, into experience

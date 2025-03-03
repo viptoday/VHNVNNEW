@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Check } from "lucide-react";
 
 const services = [
   {
@@ -71,7 +70,7 @@ export default function Services() {
         <div className="max-w-3xl mx-auto text-center mb-16">
           <h2 className="text-4xl font-bold mb-6 relative pb-4
             after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2
-            after:w-20 after:h-1 after:bg-[#C4A052] text-[#0A1D36]">
+            after:w-20 after:h-1 after:bg-[#D4B254] text-[#0F1F3F]">
             越南頂級旅遊服務
           </h2>
           <p className="text-lg text-gray-600">
@@ -82,18 +81,18 @@ export default function Services() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <Card key={index} className="overflow-hidden hover:translate-y-[-10px] transition-all duration-300
-              hover:shadow-xl border-[#E5E7EB] hover:border-[#0A1D36]">
+              hover:shadow-xl border-[#E5E7EB] hover:border-[#0F1F3F]">
               <div 
                 className="h-56 bg-cover bg-center"
                 style={{ backgroundImage: `url(${service.image})` }}
               />
               <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-[#0A1D36] mb-4">
+                <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">
                   {service.title}
                 </h3>
                 {service.features.map((feature, idx) => (
                   <p key={idx} className="flex items-center gap-2 text-gray-600 mb-2">
-                    <Check className="h-5 w-5 text-[#C4A052]" />
+                    <span className="text-[#D4B254]">✦</span>
                     {feature}
                   </p>
                 ))}
