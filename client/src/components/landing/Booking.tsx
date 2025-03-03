@@ -6,6 +6,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function Booking() {
+  const [selectedService, setSelectedService] = useState<string>("visa");
   const [selectedOptions, setSelectedOptions] = useState({
     serviceType: "",
     validity: "30",
@@ -44,12 +45,35 @@ export default function Booking() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-4 gap-8">
-          {/* 簽證服務 */}
-          <Card className="overflow-hidden">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">簽證服務</h3>
+        {/* 服務選擇按鈕 */}
+        <div className="flex justify-center gap-4 mb-8">
+          {[
+            { id: "visa", label: "簽證服務" },
+            { id: "vip", label: "機場VIP通關" },
+            { id: "pickup", label: "機場接送" },
+            { id: "charter", label: "包車服務" }
+          ].map((service) => (
+            <Button
+              key={service.id}
+              variant={selectedService === service.id ? "default" : "outline"}
+              className={`flex-1 max-w-[200px] ${
+                selectedService === service.id
+                  ? "bg-[#0F1F3F] text-white"
+                  : "border-gray-200 hover:border-[#0F1F3F]"
+              }`}
+              onClick={() => setSelectedService(service.id)}
+            >
+              {service.label}
+            </Button>
+          ))}
+        </div>
+
+        {/* 服務選項區域 */}
+        <Card className="max-w-2xl mx-auto">
+          <CardContent className="p-6">
+            {selectedService === "visa" && (
               <div className="space-y-6">
+                <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">簽證服務</h3>
                 <div>
                   <h4 className="mb-2">請選擇：簽證類型</h4>
                   <Button 
@@ -116,14 +140,11 @@ export default function Booking() {
                   </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            )}
 
-          {/* 機場VIP通關 */}
-          <Card className="overflow-hidden">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">機場VIP通關</h3>
+            {selectedService === "vip" && (
               <div className="space-y-6">
+                <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">機場VIP通關</h3>
                 <div>
                   <h4 className="mb-2">機場選擇</h4>
                   <div className="space-y-2">
@@ -184,14 +205,11 @@ export default function Booking() {
                   </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            )}
 
-          {/* 機場接送 */}
-          <Card className="overflow-hidden">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">機場接送</h3>
+            {selectedService === "pickup" && (
               <div className="space-y-6">
+                <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">機場接送</h3>
                 <div>
                   <h4 className="mb-2">上車地點</h4>
                   <div className="space-y-2">
@@ -277,14 +295,11 @@ export default function Booking() {
                   </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            )}
 
-          {/* 包車服務 */}
-          <Card className="overflow-hidden">
-            <CardContent className="p-6">
-              <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">包車服務</h3>
+            {selectedService === "charter" && (
               <div className="space-y-6">
+                <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">包車服務</h3>
                 <div>
                   <h4 className="mb-2">城市</h4>
                   <div className="space-y-2">
@@ -371,9 +386,9 @@ export default function Booking() {
                   </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </section>
   );
