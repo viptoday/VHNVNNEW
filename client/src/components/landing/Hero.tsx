@@ -7,7 +7,7 @@ export default function Hero() {
         className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1583417319070-4a69db38a482')] 
         bg-cover bg-center"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-[rgba(0,31,63,0.8)] via-[rgba(0,71,171,0.4)] to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0A1D36]/95 via-[#0A1D36]/80 to-transparent" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -20,8 +20,8 @@ export default function Hero() {
           </p>
           <Button 
             size="lg"
-            className="bg-[#D2973F] hover:bg-[#FF8534] hover:translate-y-[-3px] transition-all duration-300
-            text-white font-semibold tracking-wider uppercase"
+            className="bg-[#C4A052] hover:bg-[#D4B254] hover:translate-y-[-3px] transition-all duration-300
+            text-white font-semibold tracking-wider uppercase shadow-lg"
           >
             探索我們的服務
           </Button>
