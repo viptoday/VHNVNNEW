@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIPTODAY - 越南頂級旅遊體驗</title>
+    <style>
+        :root {
+            --primary: #1B3C73;
+            --secondary: #0F6E9A;
+            --accent: #D2973F;
+            --dark: #0A1D36;
+            --light: #F8F9FC;
+            --gold: #D4B254;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Noto Sans TC', sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        
+        .logo span {
+            color: var(--gold);
+        }
+        
+        .tagline {
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+        
+        .hero {
+            background: url('/api/placeholder/1200/600') no-repeat center center;
+            background-size: cover;
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to right, rgba(0, 31, 63, 0.8), rgba(0, 71, 171, 0.4), rgba(0, 0, 0, 0));
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            max-width: 600px;
+            padding: 2rem;
+            margin-left: 5%;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin: 2rem 0 1rem;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            background: #FF8534;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+        
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .global-reach {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .global-reach h2 {
+            color: white;
+        }
+        
+        .global-reach h2::after {
+            background-color: white;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .services {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .service-intro {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-align: center;
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: var(--light);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--secondary);
+        }
+        
+        .service-img {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .service-content {
+            padding: 1.8rem;
+        }
+        
+        .service-content p {
+            color: #555;
+            margin-bottom: 0.8rem;
+        }
+        
+        .feature-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .promotion {
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            color: white;
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .promotion::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        .promotion-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .promotion h2 {
+            color: white;
+        }
+        
+        .promotion h2::after {
+            background-color: var(--gold);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .airports {
+            padding: 5rem 0;
+            background-color: var(--light);
+        }
+        
+        .airports-intro {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-align: center;
+        }
+        
+        .airport-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .airport-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .airport-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .airport-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .airport-card:hover::before {
+            width: 100%;
+            opacity: 0.1;
+        }
+        
+        .custom-tour {
+            padding: 6rem 0;
+            background: url('/api/placeholder/1200/600') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            color: white;
+        }
+        
+        .custom-tour::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 31, 63, 0.9), rgba(0, 71, 171, 0.7));
+        }
+        
+        .custom-tour-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .custom-tour h2 {
+            color: white;
+            text-align: center;
+        }
+        
+        .custom-tour h2::after {
+            background-color: var(--accent);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .tour-features {
+            margin: 3rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .tour-feature {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .tour-feature:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .tour-feature h3 {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tour-feature h3 i {
+            margin-right: 10px;
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+        
+        .tour-feature p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .pricing {
+            padding: 5rem 0;
+            background-color: white;
+        }
+        
+        .pricing-intro {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        th, td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        tr:hover {
+            background-color: var(--light);
+        }
+        
+        .price-notes {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: var(--light);
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .price-notes p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            color: #555;
+        }
+        
+        .contact {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 5rem 0;
+        }
+        
+        .contact-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .contact h2 {
+            color: white;
+        }
+        
+        .contact h2::after {
+            background-color: var(--accent);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .contact-info {
+            margin: 3rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .contact-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 8px;
+            min-width: 250px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .contact-item i {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-column h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        
+        .footer-column p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        
+        .social-icons {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .hero {
+                height: 60vh;
+            }
+            
+            .service-grid, .airport-grid, .tour-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">VIP<span>TODAY</span></div>
+                <div class="tagline">Beyond travel, into experience</div>
+            </div>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>越南 | 體驗超越想像的頂級旅遊</h1>
+            <p>從簽證安排到專屬接送，從貴賓通關到量身定制的旅遊體驗，我們打造無與倫比的越南之旅</p>
+            <a href="#services" class="btn">探索我們的服務</a>
+        </div>
+    </section>
+    
+    <section class="global-reach">
+        <div class="container">
+            <p>我們提供 65+ 國家的高端旅遊服務，越南是我們的專業領域之一</p>
+        </div>
+    </section>
+    
+    <section id="services" class="services">
+        <div class="container">
+            <div class="service-intro">
+                <h2>越南頂級旅遊服務</h2>
+                <p>VIPTODAY 為您提供全方位的越南旅遊解決方案，讓您的旅程輕鬆愜意，盡享尊貴體驗</p>
+            </div>
+            
+            <div class="service-grid">
+                <div class="service-card">
+                    <div class="service-img" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="service-content">
+                        <h3>專業簽證辦理</h3>
+                        <p><span class="feature-icon">✦</span> 30/90天觀光簽證，靈活選擇</p>
+                        <p><span class="feature-icon">✦</span> 單次/多次出入境簽證</p>
+                        <p><span class="feature-icon">✦</span> 資深顧問全程指導</p>
+                        <p><span class="feature-icon">✦</span> 快速處理，無需排隊等待</p>
+                        <a href="#pricing" class="btn btn-outline">了解更多</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-img" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="service-content">
+                        <h3>機場貴賓通關</h3>
+                        <p><span class="feature-icon">✦</span> 專享 VIP 通道，無需排隊</p>
+                        <p><span class="feature-icon">✦</span> 專人協助辦理入境手續</p>
+                        <p><span class="feature-icon">✦</span> 優先行李處理服務</p>
+                        <p><span class="feature-icon">✦</span> 入境即享尊貴待遇</p>
+                        <a href="#pricing" class="btn btn-outline">了解更多</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-img" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="service-content">
+                        <h3>機場專車接送</h3>
+                        <p><span class="feature-icon">✦</span> 豪華轎車/商務車/SUV 多種選擇</p>
+                        <p><span class="feature-icon">✦</span> 專業雙語司機</p>
+                        <p><span class="feature-icon">✦</span> 24小時全天候服務</p>
+                        <p><span class="feature-icon">✦</span> 專人舉牌迎接，貼心無憂</p>
+                        <a href="#pricing" class="btn btn-outline">了解更多</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-img" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="service-content">
+                        <h3>高端酒店預訂</h3>
+                        <p><span class="feature-icon">✦</span> 精選五星級和精品酒店</p>
+                        <p><span class="feature-icon">✦</span> 獨家優惠房價與升級禮遇</p>
+                        <p><span class="feature-icon">✦</span> 專屬訂制配套服務</p>
+                        <p><span class="feature-icon">✦</span> VIP 客人專享額外福利</p>
+                        <a href="#pricing" class="btn btn-outline">了解更多</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-img" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="service-content">
+                        <h3>精緻包車服務</h3>
+                        <p><span class="feature-icon">✦</span> 高級車隊，舒適安全</p>
+                        <p><span class="feature-icon">✦</span> 專業雙語司機/導遊</p>
+                        <p><span class="feature-icon">✦</span> 靈活定制行程路線</p>
+                        <p><span class="feature-icon">✦</span> 專屬您的移動休息室</p>
+                        <a href="#pricing" class="btn btn-outline">了解更多</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-img" style="background-image: url('/api/placeholder/400/200')"></div>
+                    <div class="service-content">
+                        <h3>Mocbai VIP 簽證</h3>
+                        <p><span class="feature-icon">✦</span> 特殊 VIP 通道</p>
+                        <p><span class="feature-icon">✦</span> 資深顧問全程協助</p>
+                        <p><span class="feature-icon">✦</span> 最快捷的簽證延期方案</p>
+                        <p><span class="feature-icon">✦</span> 尊貴無憂的簽證體驗</p>
+                        <a href="#pricing" class="btn btn-outline">了解更多</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="promotion">
+        <div class="container">
+            <div class="promotion-content">
+                <h2>尊享限時禮遇</h2>
+                <p>預訂我們精選的越南四五星級酒店，即有機會免費獲得越南觀光簽證</p>
+                <p>驚喜檔期不定時推出，獨家優惠僅限 VIPTODAY 尊貴客戶</p>
+                <a href="#contact" class="btn">立即預訂</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="airports">
+        <div class="container">
+            <div class="airports-intro">
+                <h2>全越南機場 VIP 服務網絡</h2>
+                <p>無論您從哪個城市進入越南，VIPTODAY 都能為您提供無縫貴賓服務</p>
+            </div>
+            
+            <div class="airport-grid">
+                <div class="airport-card">
+                    <h3>河內 (Hanoi)</h3>
+                    <p>越南首都，兼具千年歷史與現代都市魅力</p>
+                </div>
+                
+                <div class="airport-card">
+                    <h3>峴港 (Danang)</h3>
+                    <p>中越度假勝地，擁有世界級海灘與景觀</p>
+                </div>
+                
+                <div class="airport-card">
+                    <h3>胡志明市 (HCMC)</h3>
+                    <p>越南最大城市，活力四射的商業與文化中心</p>
+                </div>
+                
+                <div class="airport-card">
+                    <h3>磨杵 (Mocbai)</h3>
+                    <p>VIP 簽證特區，便捷的出入境服務</p>
+                </div>
+                
+                <div class="airport-card">
+                    <h3>富國島 (Phu Quoc)</h3>
+                    <p>越南首屈一指的島嶼度假天堂</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="custom-tour">
+        <div class="container">
+            <div class="custom-tour-content">
+                <h2>VIPTODAY 越南訂製遊</h2>
+                <p>遠離常規旅遊路線，體驗真正屬於您的獨特越南之旅</p>
+                
+                <div class="tour-features">
+                    <div class="tour-feature">
+                        <h3>光速規劃服務</h3>
+                        <p>我們的旅遊專家團隊為您高效設計夢想中的越南之旅，量身打造獨一無二的行程</p>
+                    </div>
+                    
+                    <div class="tour-feature">
+                        <h3>私人定制行程</h3>
+                        <p>不跟團，不走尋常路線，完全根據您的興趣、時間和節奏量身定制</p>
+                    </div>
+                    
+                    <div class="tour-feature">
+                        <h3>隱藏景點探索</h3>
+                        <p>帶您探訪當地人才知道的秘境，體驗真實而原汁原味的越南文化</p>
+                    </div>
+                    
+                    <div class="tour-feature">
+                        <h3>頂級美食體驗</h3>
+                        <p>從街頭美食到米其林星級餐廳，為您安排一場難忘的越南美食之旅</p>
+                    </div>
+                    
+                    <div class="tour-feature">
+                        <h3>專業中文導遊</h3>
+                        <p>具備豐富知識與經驗的雙語導遊，讓您深入了解越南的歷史、文化與生活</p>
+                    </div>
+                    
+                    <div class="tour-feature">
+                        <h3>彈性行程調整</h3>
+                        <p>旅途中隨時可調整行程，靈活應對您的即興想法，輕鬆享受假期</p>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="#contact" class="btn">預約專屬顧問</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="pricing-intro">
+                <h2>越南服務價格指南</h2>
+                <p>透明的價格，卓越的服務，讓您的越南之旅物超所值</p>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>服務類型</th>
+                        <th>服務細項</th>
+                        <th>價格 (USD)</th>
+                        <th>備註</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="4">旅遊簽證</td>
+                        <td>30天單次出入境</td>
+                        <td>TBC</td>
+                        <td>快速處理</td>
+                    </tr>
+                    <tr>
+                        <td>30天多次出入境</td>
+                        <td>TBC</td>
+                        <td>無限次出入境</td>
+                    </tr>
+                    <tr>
+                        <td>60天單次出入境</td>
+                        <td>TBC</td>
+                        <td>長期停留優選</td>
+                    </tr>
+                    <tr>
+                        <td>60天多次出入境</td>
+                        <td>
