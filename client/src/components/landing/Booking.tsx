@@ -6,49 +6,31 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function Booking() {
-  const [selectedService, setSelectedService] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState({
-    airport: "",
     serviceType: "",
     validity: "30",
     carType: "",
     language: "",
+    airport: ""
   });
 
   // 計算價格的函數
-  const calculatePrice = () => {
-    if (selectedService === "visa") {
-      // 根據簽證有效期和類型計算價格
-      const basePrice = 34.49;
-      const validityFee = selectedOptions.validity === "90" ? 15 : 0;
-      const typeFee = selectedOptions.serviceType === "multiple" ? 20 : 0;
-      return (basePrice + validityFee + typeFee).toFixed(2);
-    } else if (selectedService === "vip") {
-      // 根據服務類型計算價格
-      const basePrice = 88.00;
-      const serviceFee = {
-        arrival: 0,
-        departure: 0,
-        both: 30
-      }[selectedOptions.serviceType] || 0;
-      return (basePrice + serviceFee).toFixed(2);
-    } else if (selectedService === "pickup") {
-      // 根據車型和語言選擇計算價格
-      const basePrice = 30.00;
-      const carTypePrice = {
-        sedan: 0,
-        suv: 15,
-        van: 25,
-        limo: 50
-      }[selectedOptions.carType] || 0;
-      const languageFee = {
-        local: 0,
-        chinese: 10,
-        english: 15
-      }[selectedOptions.language] || 0;
-      return (basePrice + carTypePrice + languageFee).toFixed(2);
+  const calculatePrice = (service: string) => {
+    switch (service) {
+      case "visa":
+        const basePrice = 34.49;
+        const validityFee = selectedOptions.validity === "90" ? 15 : 0;
+        const typeFee = selectedOptions.serviceType === "multiple" ? 20 : 0;
+        return (basePrice + validityFee + typeFee).toFixed(2);
+      case "vip":
+        return "88.00";
+      case "pickup":
+        return "from S$ 30.00";
+      case "charter":
+        return "from S$ 50.00";
+      default:
+        return "計算中...";
     }
-    return "from S$ 30.00";
   };
 
   return (
@@ -66,67 +48,69 @@ export default function Booking() {
           {/* 簽證服務 */}
           <Card className="overflow-hidden">
             <CardContent className="p-6">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[#0F1F3F]">簽證服務</h3>
-                <div className="flex flex-col gap-2">
+              <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">簽證服務</h3>
+              <div className="space-y-6">
+                <div>
                   <h4 className="mb-2">請選擇：簽證類型</h4>
-                  <div className="inline-flex">
-                    <button className="p-3 rounded-md bg-[#0F1F3F] text-white border-2 border-[#0F1F3F]">
-                      電子簽證
-                    </button>
-                  </div>
+                  <Button 
+                    className="w-full bg-[#0F1F3F] text-white"
+                  >
+                    電子簽證
+                  </Button>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div>
                   <h4 className="mb-2">預訂類型</h4>
-                  <div className="inline-flex gap-2">
+                  <div className="flex gap-2">
                     {[
                       { id: "single", label: "單次入境" },
                       { id: "multiple", label: "多次入境" }
                     ].map((type) => (
-                      <button
+                      <Button
                         key={type.id}
-                        onClick={() => setSelectedOptions({...selectedOptions, serviceType: type.id})}
-                        className={`p-3 rounded-md border-2 transition-all ${
+                        variant={selectedOptions.serviceType === type.id ? "default" : "outline"}
+                        className={`flex-1 ${
                           selectedOptions.serviceType === type.id
-                            ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
                         }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, serviceType: type.id})}
                       >
                         {type.label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div>
                   <h4 className="mb-2">有效期</h4>
-                  <div className="inline-flex gap-2">
+                  <div className="flex gap-2">
                     {[
                       { id: "30", label: "30天" },
                       { id: "90", label: "90天" }
                     ].map((period) => (
-                      <button
+                      <Button
                         key={period.id}
-                        onClick={() => setSelectedOptions({...selectedOptions, validity: period.id})}
-                        className={`p-3 rounded-md border-2 transition-all ${
+                        variant={selectedOptions.validity === period.id ? "default" : "outline"}
+                        className={`flex-1 ${
                           selectedOptions.validity === period.id
-                            ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
                         }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, validity: period.id})}
                       >
                         {period.label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-8 text-center">
-                  <div className="text-2xl font-bold text-[#0F1F3F]">
-                    S$ 34.49
+                <div className="pt-4">
+                  <div className="text-2xl font-bold text-[#0F1F3F] text-center mb-4">
+                    S$ {calculatePrice("visa")}
                   </div>
                   <Button 
-                    className="mt-4 w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
+                    className="w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
                   >
                     立即預訂
                   </Button>
@@ -138,61 +122,63 @@ export default function Booking() {
           {/* 機場VIP通關 */}
           <Card className="overflow-hidden">
             <CardContent className="p-6">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[#0F1F3F]">機場VIP通關</h3>
-                <div className="flex flex-col gap-2">
+              <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">機場VIP通關</h3>
+              <div className="space-y-6">
+                <div>
                   <h4 className="mb-2">機場選擇</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="space-y-2">
                     {[
                       { id: "hanoi", label: "河內機場" },
                       { id: "hochiminh", label: "胡志明市機場" },
                       { id: "hue", label: "順化機場" },
                       { id: "laos", label: "寮國機場" }
                     ].map((airport) => (
-                      <button
+                      <Button
                         key={airport.id}
-                        onClick={() => setSelectedOptions({...selectedOptions, airport: airport.id})}
-                        className={`p-3 rounded-md border-2 transition-all ${
+                        variant={selectedOptions.airport === airport.id ? "default" : "outline"}
+                        className={`w-full ${
                           selectedOptions.airport === airport.id
-                            ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
                         }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, airport: airport.id})}
                       >
                         {airport.label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div>
                   <h4 className="mb-2">服務類型</h4>
-                  <div className="inline-flex gap-2">
+                  <div className="space-y-2">
                     {[
                       { id: "arrival", label: "入境服務" },
                       { id: "departure", label: "出境服務" },
                       { id: "both", label: "雙向服務" }
                     ].map((type) => (
-                      <button
+                      <Button
                         key={type.id}
-                        onClick={() => setSelectedOptions({...selectedOptions, serviceType: type.id})}
-                        className={`p-3 rounded-md border-2 transition-all ${
+                        variant={selectedOptions.serviceType === type.id ? "default" : "outline"}
+                        className={`w-full ${
                           selectedOptions.serviceType === type.id
-                            ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
                         }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, serviceType: type.id})}
                       >
                         {type.label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-8 text-center">
-                  <div className="text-2xl font-bold text-[#0F1F3F]">
-                    S$ 88.00
+                <div className="pt-4">
+                  <div className="text-2xl font-bold text-[#0F1F3F] text-center mb-4">
+                    S$ {calculatePrice("vip")}
                   </div>
                   <Button 
-                    className="mt-4 w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
+                    className="w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
                   >
                     立即預訂
                   </Button>
@@ -204,85 +190,88 @@ export default function Booking() {
           {/* 機場接送 */}
           <Card className="overflow-hidden">
             <CardContent className="p-6">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[#0F1F3F]">機場接送</h3>
-                <div className="flex flex-col gap-2">
+              <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">機場接送</h3>
+              <div className="space-y-6">
+                <div>
                   <h4 className="mb-2">上車地點</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="space-y-2">
                     {[
                       { id: "hanoi", label: "河內" },
                       { id: "hochiminh", label: "胡志明" },
                       { id: "hue", label: "順化" },
                       { id: "laos", label: "寮國" }
                     ].map((location) => (
-                      <button
+                      <Button
                         key={location.id}
-                        onClick={() => setSelectedOptions({...selectedOptions, airport: location.id})}
-                        className={`p-3 rounded-md border-2 transition-all ${
+                        variant={selectedOptions.airport === location.id ? "default" : "outline"}
+                        className={`w-full ${
                           selectedOptions.airport === location.id
-                            ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
                         }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, airport: location.id})}
                       >
                         {location.label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div>
                   <h4 className="mb-2">車型選擇</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="space-y-2">
                     {[
                       { id: "sedan", label: "轎車 (3人座)" },
                       { id: "suv", label: "SUV/MPV (5人座)" },
                       { id: "van", label: "禮賓車 (12人座)" },
                       { id: "limo", label: "高級車 (含limousine)" }
                     ].map((car) => (
-                      <button
+                      <Button
                         key={car.id}
-                        onClick={() => setSelectedOptions({...selectedOptions, carType: car.id})}
-                        className={`p-3 rounded-md border-2 transition-all ${
+                        variant={selectedOptions.carType === car.id ? "default" : "outline"}
+                        className={`w-full ${
                           selectedOptions.carType === car.id
-                            ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
                         }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, carType: car.id})}
                       >
                         {car.label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div>
                   <h4 className="mb-2">司機語言能力</h4>
-                  <div className="inline-flex gap-2">
+                  <div className="space-y-2">
                     {[
                       { id: "local", label: "僅會地話" },
                       { id: "chinese", label: "中文" },
                       { id: "english", label: "英文" }
                     ].map((lang) => (
-                      <button
+                      <Button
                         key={lang.id}
-                        onClick={() => setSelectedOptions({...selectedOptions, language: lang.id})}
-                        className={`p-3 rounded-md border-2 transition-all ${
+                        variant={selectedOptions.language === lang.id ? "default" : "outline"}
+                        className={`w-full ${
                           selectedOptions.language === lang.id
-                            ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
                         }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, language: lang.id})}
                       >
                         {lang.label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-8 text-center">
-                  <div className="text-2xl font-bold text-[#0F1F3F]">
-                    from S$ 30.00
+                <div className="pt-4">
+                  <div className="text-2xl font-bold text-[#0F1F3F] text-center mb-4">
+                    {calculatePrice("pickup")}
                   </div>
                   <Button 
-                    className="mt-4 w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
+                    className="w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
                   >
                     立即預訂
                   </Button>
@@ -294,86 +283,89 @@ export default function Booking() {
           {/* 包車服務 */}
           <Card className="overflow-hidden">
             <CardContent className="p-6">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-[#0F1F3F]">包車服務</h3>
-                <div className="flex flex-col gap-2">
+              <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">包車服務</h3>
+              <div className="space-y-6">
+                <div>
                   <h4 className="mb-2">城市</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="space-y-2">
                     {[
                       { id: "hanoi", label: "河內" },
                       { id: "hochiminh", label: "胡志明" },
                       { id: "hue", label: "順化" },
                       { id: "laos", label: "寮國" }
                     ].map((location) => (
-                      <button
+                      <Button
                         key={location.id}
-                        onClick={() => setSelectedOptions({...selectedOptions, airport: location.id})}
-                        className={`p-3 rounded-md border-2 transition-all ${
+                        variant={selectedOptions.airport === location.id ? "default" : "outline"}
+                        className={`w-full ${
                           selectedOptions.airport === location.id
-                            ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
                         }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, airport: location.id})}
                       >
                         {location.label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div>
                   <h4 className="mb-2">車型</h4>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="space-y-2">
                     {[
                       { id: "sedan2", label: "轎車 (2人2件手)" },
                       { id: "suv4", label: "SUV/MPV (4人4件手)" },
                       { id: "van6", label: "禮賓車 (6人6件手)" },
                       { id: "bus8", label: "巴士 (8人8件手以上)" }
                     ].map((car) => (
-                      <button
+                      <Button
                         key={car.id}
-                        onClick={() => setSelectedOptions({...selectedOptions, carType: car.id})}
-                        className={`p-3 rounded-md border-2 transition-all ${
+                        variant={selectedOptions.carType === car.id ? "default" : "outline"}
+                        className={`w-full ${
                           selectedOptions.carType === car.id
-                            ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
                         }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, carType: car.id})}
                       >
                         {car.label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
+                <div>
                   <h4 className="mb-2">司機語言能力</h4>
-                  <div className="inline-flex gap-2">
+                  <div className="space-y-2">
                     {[
                       { id: "local", label: "僅會地話" },
                       { id: "chinese", label: "中文" },
                       { id: "english", label: "英文" },
                       { id: "other", label: "其他外文" }
                     ].map((lang) => (
-                      <button
+                      <Button
                         key={lang.id}
-                        onClick={() => setSelectedOptions({...selectedOptions, language: lang.id})}
-                        className={`p-3 rounded-md border-2 transition-all ${
+                        variant={selectedOptions.language === lang.id ? "default" : "outline"}
+                        className={`w-full ${
                           selectedOptions.language === lang.id
-                            ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
                         }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, language: lang.id})}
                       >
                         {lang.label}
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>
 
-                <div className="mt-8 text-center">
-                  <div className="text-2xl font-bold text-[#0F1F3F]">
-                    from S$ 50.00
+                <div className="pt-4">
+                  <div className="text-2xl font-bold text-[#0F1F3F] text-center mb-4">
+                    {calculatePrice("charter")}
                   </div>
                   <Button 
-                    className="mt-4 w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
+                    className="w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
                   >
                     立即預訂
                   </Button>
