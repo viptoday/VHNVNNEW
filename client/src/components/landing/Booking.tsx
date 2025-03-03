@@ -4,7 +4,6 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
 export default function Booking() {
@@ -12,9 +11,29 @@ export default function Booking() {
   const [selectedOptions, setSelectedOptions] = useState({
     airport: "",
     serviceType: "",
-    people: 1,
-    days: 30,
+    validity: "30",
+    carType: "",
+    language: "",
   });
+
+  // 計算價格的函數
+  const calculatePrice = () => {
+    if (selectedService === "visa") {
+      return "34.49";
+    } else if (selectedService === "vip") {
+      return "88.00";
+    } else if (selectedService === "pickup") {
+      const basePrice = 30.00;
+      const carTypePrice = {
+        sedan: 0,
+        suv: 10,
+        van: 20,
+        limo: 30
+      }[selectedOptions.carType] || 0;
+      return (basePrice + carTypePrice).toFixed(2);
+    }
+    return "價格根據選擇而定";
+  };
 
   return (
     <section className="py-24 bg-[#F8F9FA]" id="booking">
@@ -35,112 +54,87 @@ export default function Booking() {
             <div className="space-y-8">
               <div>
                 <h3 className="text-lg font-semibold mb-4 text-[#0F1F3F]">選擇服務</h3>
-                <RadioGroup
-                  defaultValue={selectedService}
-                  onValueChange={setSelectedService}
-                  className="grid grid-cols-2 gap-4"
-                >
-                  <div>
-                    <RadioGroupItem
-                      value="visa"
-                      id="visa"
-                      className="peer sr-only"
-                    />
-                    <Label
-                      htmlFor="visa"
-                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-white p-4 hover:bg-gray-50 [&:has([data-state=checked])]:border-[#D4B254] cursor-pointer"
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { id: "visa", label: "簽證服務" },
+                    { id: "vip", label: "機場VIP通關" },
+                    { id: "pickup", label: "機場接送" },
+                    { id: "charter", label: "包車服務" }
+                  ].map((service) => (
+                    <button
+                      key={service.id}
+                      onClick={() => setSelectedService(service.id)}
+                      className={`p-4 rounded-md border-2 transition-all duration-300 ${
+                        selectedService === service.id
+                          ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                          : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                      }`}
                     >
-                      <span>簽證服務</span>
-                    </Label>
-                  </div>
-                  <div>
-                    <RadioGroupItem
-                      value="vip"
-                      id="vip"
-                      className="peer sr-only"
-                    />
-                    <Label
-                      htmlFor="vip"
-                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-white p-4 hover:bg-gray-50 [&:has([data-state=checked])]:border-[#D4B254] cursor-pointer"
-                    >
-                      <span>機場VIP通關</span>
-                    </Label>
-                  </div>
-                  <div>
-                    <RadioGroupItem
-                      value="pickup"
-                      id="pickup"
-                      className="peer sr-only"
-                    />
-                    <Label
-                      htmlFor="pickup"
-                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-white p-4 hover:bg-gray-50 [&:has([data-state=checked])]:border-[#D4B254] cursor-pointer"
-                    >
-                      <span>機場接送</span>
-                    </Label>
-                  </div>
-                  <div>
-                    <RadioGroupItem
-                      value="charter"
-                      id="charter"
-                      className="peer sr-only"
-                    />
-                    <Label
-                      htmlFor="charter"
-                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-white p-4 hover:bg-gray-50 [&:has([data-state=checked])]:border-[#D4B254] cursor-pointer"
-                    >
-                      <span>包車服務</span>
-                    </Label>
-                  </div>
-                </RadioGroup>
+                      {service.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {selectedService && (
                 <div className="border-t pt-6">
                   <h3 className="text-lg font-semibold mb-4 text-[#0F1F3F]">服務細節</h3>
-                  {/* 根據所選服務顯示不同的選項 */}
+
                   {selectedService === "visa" && (
                     <div className="space-y-4">
                       <div>
                         <h4 className="mb-2">請選擇：簽證類型</h4>
-                        <RadioGroup defaultValue="e-visa" className="flex gap-4">
-                          <div>
-                            <RadioGroupItem value="e-visa" id="e-visa" defaultChecked />
-                            <Label htmlFor="e-visa" className="ml-2">電子簽證</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-1 gap-2">
+                          <button
+                            className="p-3 rounded-md bg-[#0F1F3F] text-white border-2 border-[#0F1F3F]"
+                          >
+                            電子簽證
+                          </button>
+                        </div>
                       </div>
 
                       <div>
                         <h4 className="mb-2">預訂類型</h4>
-                        <RadioGroup defaultValue="single" className="flex gap-4">
-                          <div>
-                            <RadioGroupItem value="single" id="single" />
-                            <Label htmlFor="single" className="ml-2">單次入境</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="multiple" id="multiple" />
-                            <Label htmlFor="multiple" className="ml-2">多次入境</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { id: "single", label: "單次入境" },
+                            { id: "multiple", label: "多次入境" }
+                          ].map((type) => (
+                            <button
+                              key={type.id}
+                              onClick={() => setSelectedOptions({...selectedOptions, serviceType: type.id})}
+                              className={`p-3 rounded-md border-2 transition-all ${
+                                selectedOptions.serviceType === type.id
+                                  ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                                  : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                              }`}
+                            >
+                              {type.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
 
                       <div>
                         <h4 className="mb-2">有效期</h4>
-                        <RadioGroup
-                          defaultValue={selectedOptions.days.toString()}
-                          onValueChange={(value) => setSelectedOptions({...selectedOptions, days: parseInt(value)})}
-                          className="flex gap-4"
-                        >
-                          <div>
-                            <RadioGroupItem value="30" id="30days" />
-                            <Label htmlFor="30days" className="ml-2">30天</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="90" id="90days" />
-                            <Label htmlFor="90days" className="ml-2">90天</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { id: "30", label: "30天" },
+                            { id: "90", label: "90天" }
+                          ].map((period) => (
+                            <button
+                              key={period.id}
+                              onClick={() => setSelectedOptions({...selectedOptions, validity: period.id})}
+                              className={`p-3 rounded-md border-2 transition-all ${
+                                selectedOptions.validity === period.id
+                                  ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                                  : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                              }`}
+                            >
+                              {period.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -149,42 +143,49 @@ export default function Booking() {
                     <div className="space-y-4">
                       <div>
                         <h4 className="mb-2">機場選擇</h4>
-                        <RadioGroup defaultValue="hanoi" className="grid grid-cols-2 gap-4">
-                          <div>
-                            <RadioGroupItem value="hanoi" id="hanoi" />
-                            <Label htmlFor="hanoi" className="ml-2">河內機場</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="hochiminh" id="hochiminh" />
-                            <Label htmlFor="hochiminh" className="ml-2">胡志明市機場</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="hue" id="hue" />
-                            <Label htmlFor="hue" className="ml-2">順化機場</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="laos" id="laos" />
-                            <Label htmlFor="laos" className="ml-2">寮國機場</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { id: "hanoi", label: "河內機場" },
+                            { id: "hochiminh", label: "胡志明市機場" },
+                            { id: "hue", label: "順化機場" },
+                            { id: "laos", label: "寮國機場" }
+                          ].map((airport) => (
+                            <button
+                              key={airport.id}
+                              onClick={() => setSelectedOptions({...selectedOptions, airport: airport.id})}
+                              className={`p-3 rounded-md border-2 transition-all ${
+                                selectedOptions.airport === airport.id
+                                  ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                                  : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                              }`}
+                            >
+                              {airport.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
 
                       <div>
                         <h4 className="mb-2">服務類型</h4>
-                        <RadioGroup defaultValue="arrival" className="flex gap-4">
-                          <div>
-                            <RadioGroupItem value="arrival" id="arrival" />
-                            <Label htmlFor="arrival" className="ml-2">入境服務</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="departure" id="departure" />
-                            <Label htmlFor="departure" className="ml-2">出境服務</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="both" id="both" />
-                            <Label htmlFor="both" className="ml-2">雙向服務</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-3 gap-2">
+                          {[
+                            { id: "arrival", label: "入境服務" },
+                            { id: "departure", label: "出境服務" },
+                            { id: "both", label: "雙向服務" }
+                          ].map((type) => (
+                            <button
+                              key={type.id}
+                              onClick={() => setSelectedOptions({...selectedOptions, serviceType: type.id})}
+                              className={`p-3 rounded-md border-2 transition-all ${
+                                selectedOptions.serviceType === type.id
+                                  ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                                  : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                              }`}
+                            >
+                              {type.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -193,64 +194,73 @@ export default function Booking() {
                     <div className="space-y-4">
                       <div>
                         <h4 className="mb-2">上車地點</h4>
-                        <RadioGroup defaultValue="hanoi" className="grid grid-cols-2 gap-4">
-                          <div>
-                            <RadioGroupItem value="hanoi" id="pickup-hanoi" />
-                            <Label htmlFor="pickup-hanoi" className="ml-2">河內</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="hochiminh" id="pickup-hochiminh" />
-                            <Label htmlFor="pickup-hochiminh" className="ml-2">胡志明</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="hue" id="pickup-hue" />
-                            <Label htmlFor="pickup-hue" className="ml-2">順化</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="laos" id="pickup-laos" />
-                            <Label htmlFor="pickup-laos" className="ml-2">寮國</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { id: "hanoi", label: "河內" },
+                            { id: "hochiminh", label: "胡志明" },
+                            { id: "hue", label: "順化" },
+                            { id: "laos", label: "寮國" }
+                          ].map((location) => (
+                            <button
+                              key={location.id}
+                              onClick={() => setSelectedOptions({...selectedOptions, airport: location.id})}
+                              className={`p-3 rounded-md border-2 transition-all ${
+                                selectedOptions.airport === location.id
+                                  ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                                  : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                              }`}
+                            >
+                              {location.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
 
                       <div>
                         <h4 className="mb-2">車型選擇</h4>
-                        <RadioGroup defaultValue="sedan" className="grid grid-cols-2 gap-4">
-                          <div>
-                            <RadioGroupItem value="sedan" id="sedan" />
-                            <Label htmlFor="sedan" className="ml-2">轎車 (3人座)</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="suv" id="suv" />
-                            <Label htmlFor="suv" className="ml-2">SUV/MPV (5人座)</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="van" id="van" />
-                            <Label htmlFor="van" className="ml-2">禮賓車 (12人座)</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="limo" id="limo" />
-                            <Label htmlFor="limo" className="ml-2">高級車 (含limousine)</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { id: "sedan", label: "轎車 (3人座)" },
+                            { id: "suv", label: "SUV/MPV (5人座)" },
+                            { id: "van", label: "禮賓車 (12人座)" },
+                            { id: "limo", label: "高級車 (含limousine)" }
+                          ].map((car) => (
+                            <button
+                              key={car.id}
+                              onClick={() => setSelectedOptions({...selectedOptions, carType: car.id})}
+                              className={`p-3 rounded-md border-2 transition-all ${
+                                selectedOptions.carType === car.id
+                                  ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                                  : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                              }`}
+                            >
+                              {car.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
 
                       <div>
                         <h4 className="mb-2">司機語言能力</h4>
-                        <RadioGroup defaultValue="local" className="flex gap-4">
-                          <div>
-                            <RadioGroupItem value="local" id="local-lang" />
-                            <Label htmlFor="local-lang" className="ml-2">僅會地話</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="chinese" id="chinese-lang" />
-                            <Label htmlFor="chinese-lang" className="ml-2">中文</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="english" id="english-lang" />
-                            <Label htmlFor="english-lang" className="ml-2">英文</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-3 gap-2">
+                          {[
+                            { id: "local", label: "僅會地話" },
+                            { id: "chinese", label: "中文" },
+                            { id: "english", label: "英文" }
+                          ].map((lang) => (
+                            <button
+                              key={lang.id}
+                              onClick={() => setSelectedOptions({...selectedOptions, language: lang.id})}
+                              className={`p-3 rounded-md border-2 transition-all ${
+                                selectedOptions.language === lang.id
+                                  ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                                  : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                              }`}
+                            >
+                              {lang.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -259,68 +269,74 @@ export default function Booking() {
                     <div className="space-y-4">
                       <div>
                         <h4 className="mb-2">城市</h4>
-                        <RadioGroup defaultValue="hanoi" className="grid grid-cols-2 gap-4">
-                          <div>
-                            <RadioGroupItem value="hanoi" id="charter-hanoi" />
-                            <Label htmlFor="charter-hanoi" className="ml-2">河內</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="hochiminh" id="charter-hochiminh" />
-                            <Label htmlFor="charter-hochiminh" className="ml-2">胡志明</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="hue" id="charter-hue" />
-                            <Label htmlFor="charter-hue" className="ml-2">順化</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="laos" id="charter-laos" />
-                            <Label htmlFor="charter-laos" className="ml-2">寮國</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { id: "hanoi", label: "河內" },
+                            { id: "hochiminh", label: "胡志明" },
+                            { id: "hue", label: "順化" },
+                            { id: "laos", label: "寮國" }
+                          ].map((location) => (
+                            <button
+                              key={location.id}
+                              onClick={() => setSelectedOptions({...selectedOptions, airport: location.id})}
+                              className={`p-3 rounded-md border-2 transition-all ${
+                                selectedOptions.airport === location.id
+                                  ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                                  : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                              }`}
+                            >
+                              {location.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
 
                       <div>
                         <h4 className="mb-2">車型</h4>
-                        <RadioGroup defaultValue="sedan2" className="grid grid-cols-2 gap-4">
-                          <div>
-                            <RadioGroupItem value="sedan2" id="sedan2" />
-                            <Label htmlFor="sedan2" className="ml-2">轎車 (2人2件手)</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="suv4" id="suv4" />
-                            <Label htmlFor="suv4" className="ml-2">SUV/MPV (4人4件手)</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="van6" id="van6" />
-                            <Label htmlFor="van6" className="ml-2">禮賓車 (6人6件手)</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="bus8" id="bus8" />
-                            <Label htmlFor="bus8" className="ml-2">巴士 (8人8件手以上)</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-2 gap-2">
+                          {[
+                            { id: "sedan2", label: "轎車 (2人2件手)" },
+                            { id: "suv4", label: "SUV/MPV (4人4件手)" },
+                            { id: "van6", label: "禮賓車 (6人6件手)" },
+                            { id: "bus8", label: "巴士 (8人8件手以上)" }
+                          ].map((car) => (
+                            <button
+                              key={car.id}
+                              onClick={() => setSelectedOptions({...selectedOptions, carType: car.id})}
+                              className={`p-3 rounded-md border-2 transition-all ${
+                                selectedOptions.carType === car.id
+                                  ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                                  : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                              }`}
+                            >
+                              {car.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
 
                       <div>
                         <h4 className="mb-2">司機語言能力</h4>
-                        <RadioGroup defaultValue="local" className="flex gap-4">
-                          <div>
-                            <RadioGroupItem value="local" id="local-lang2" />
-                            <Label htmlFor="local-lang2" className="ml-2">僅會地話</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="chinese" id="chinese-lang2" />
-                            <Label htmlFor="chinese-lang2" className="ml-2">中文</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="english" id="english-lang2" />
-                            <Label htmlFor="english-lang2" className="ml-2">英文</Label>
-                          </div>
-                          <div>
-                            <RadioGroupItem value="other" id="other-lang2" />
-                            <Label htmlFor="other-lang2" className="ml-2">其他外文</Label>
-                          </div>
-                        </RadioGroup>
+                        <div className="grid grid-cols-3 gap-2">
+                          {[
+                            { id: "local", label: "僅會地話" },
+                            { id: "chinese", label: "中文" },
+                            { id: "english", label: "英文" },
+                            { id: "other", label: "其他外文" }
+                          ].map((lang) => (
+                            <button
+                              key={lang.id}
+                              onClick={() => setSelectedOptions({...selectedOptions, language: lang.id})}
+                              className={`p-3 rounded-md border-2 transition-all ${
+                                selectedOptions.language === lang.id
+                                  ? "bg-[#0F1F3F] text-white border-[#0F1F3F]"
+                                  : "bg-white text-gray-700 border-gray-200 hover:border-[#0F1F3F]"
+                              }`}
+                            >
+                              {lang.label}
+                            </button>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   )}
@@ -328,7 +344,7 @@ export default function Booking() {
                   {/* 顯示價格 */}
                   <div className="mt-8 text-center">
                     <div className="text-2xl font-bold text-[#0F1F3F]">
-                      S$ {selectedService === "visa" ? "34.49" : (selectedService === "vip" ? "88.00" : "價格根據選擇而定")}
+                      S$ {calculatePrice()}
                     </div>
                     <Button 
                       className="mt-4 w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
