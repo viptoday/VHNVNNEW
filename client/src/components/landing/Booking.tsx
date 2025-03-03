@@ -76,7 +76,7 @@ export default function Booking() {
                 <h3 className="text-xl font-semibold text-[#0F1F3F] mb-4">簽證服務</h3>
                 <div>
                   <h4 className="mb-2">請選擇：簽證類型</h4>
-                  <Button 
+                  <Button
                     className="w-full bg-[#0F1F3F] text-white"
                   >
                     電子簽證
@@ -85,7 +85,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">預訂類型</h4>
-                  <div className="flex gap-2">
+                  <div className="inline-flex flex-wrap gap-2">
                     {[
                       { id: "single", label: "單次入境" },
                       { id: "multiple", label: "多次入境" }
@@ -93,7 +93,7 @@ export default function Booking() {
                       <Button
                         key={type.id}
                         variant={selectedOptions.serviceType === type.id ? "default" : "outline"}
-                        className={`flex-1 ${
+                        className={`px-6 ${
                           selectedOptions.serviceType === type.id
                             ? "bg-[#0F1F3F] text-white"
                             : "border-gray-200 hover:border-[#0F1F3F]"
@@ -108,7 +108,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">有效期</h4>
-                  <div className="flex gap-2">
+                  <div className="inline-flex flex-wrap gap-2">
                     {[
                       { id: "30", label: "30天" },
                       { id: "90", label: "90天" }
@@ -116,7 +116,7 @@ export default function Booking() {
                       <Button
                         key={period.id}
                         variant={selectedOptions.validity === period.id ? "default" : "outline"}
-                        className={`flex-1 ${
+                        className={`px-6 ${
                           selectedOptions.validity === period.id
                             ? "bg-[#0F1F3F] text-white"
                             : "border-gray-200 hover:border-[#0F1F3F]"
@@ -133,7 +133,7 @@ export default function Booking() {
                   <div className="text-2xl font-bold text-[#0F1F3F] text-center mb-4">
                     S$ {calculatePrice("visa")}
                   </div>
-                  <Button 
+                  <Button
                     className="w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
                   >
                     立即預訂
@@ -172,7 +172,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">服務類型</h4>
-                  <div className="space-y-2">
+                  <div className="inline-flex flex-wrap gap-2">
                     {[
                       { id: "arrival", label: "入境服務" },
                       { id: "departure", label: "出境服務" },
@@ -181,7 +181,7 @@ export default function Booking() {
                       <Button
                         key={type.id}
                         variant={selectedOptions.serviceType === type.id ? "default" : "outline"}
-                        className={`w-full ${
+                        className={`px-6 ${
                           selectedOptions.serviceType === type.id
                             ? "bg-[#0F1F3F] text-white"
                             : "border-gray-200 hover:border-[#0F1F3F]"
@@ -194,11 +194,36 @@ export default function Booking() {
                   </div>
                 </div>
 
+                <div>
+                  <h4 className="mb-2">司機語言能力</h4>
+                  <div className="inline-flex flex-wrap gap-2">
+                    {[
+                      { id: "local", label: "僅會地話" },
+                      { id: "chinese", label: "中文" },
+                      { id: "english", label: "英文" },
+                      { id: "other", label: "其他外文" }
+                    ].map((lang) => (
+                      <Button
+                        key={lang.id}
+                        variant={selectedOptions.language === lang.id ? "default" : "outline"}
+                        className={`px-6 ${
+                          selectedOptions.language === lang.id
+                            ? "bg-[#0F1F3F] text-white"
+                            : "border-gray-200 hover:border-[#0F1F3F]"
+                        }`}
+                        onClick={() => setSelectedOptions({...selectedOptions, language: lang.id})}
+                      >
+                        {lang.label}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="pt-4">
                   <div className="text-2xl font-bold text-[#0F1F3F] text-center mb-4">
                     S$ {calculatePrice("vip")}
                   </div>
-                  <Button 
+                  <Button
                     className="w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
                   >
                     立即預訂
@@ -237,7 +262,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">車型選擇</h4>
-                  <div className="space-y-2">
+                  <div className="inline-flex flex-wrap gap-2"> {/* Changed to inline-flex */}
                     {[
                       { id: "sedan", label: "轎車 (3人座)" },
                       { id: "suv", label: "SUV/MPV (5人座)" },
@@ -247,7 +272,7 @@ export default function Booking() {
                       <Button
                         key={car.id}
                         variant={selectedOptions.carType === car.id ? "default" : "outline"}
-                        className={`w-full ${
+                        className={`px-6 ${
                           selectedOptions.carType === car.id
                             ? "bg-[#0F1F3F] text-white"
                             : "border-gray-200 hover:border-[#0F1F3F]"
@@ -262,7 +287,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">司機語言能力</h4>
-                  <div className="space-y-2">
+                  <div className="inline-flex flex-wrap gap-2"> {/* Changed to inline-flex */}
                     {[
                       { id: "local", label: "僅會地話" },
                       { id: "chinese", label: "中文" },
@@ -271,7 +296,7 @@ export default function Booking() {
                       <Button
                         key={lang.id}
                         variant={selectedOptions.language === lang.id ? "default" : "outline"}
-                        className={`w-full ${
+                        className={`px-6 ${
                           selectedOptions.language === lang.id
                             ? "bg-[#0F1F3F] text-white"
                             : "border-gray-200 hover:border-[#0F1F3F]"
@@ -288,7 +313,7 @@ export default function Booking() {
                   <div className="text-2xl font-bold text-[#0F1F3F] text-center mb-4">
                     {calculatePrice("pickup")}
                   </div>
-                  <Button 
+                  <Button
                     className="w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
                   >
                     立即預訂
@@ -327,7 +352,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">車型</h4>
-                  <div className="space-y-2">
+                  <div className="inline-flex flex-wrap gap-2"> {/* Changed to inline-flex */}
                     {[
                       { id: "sedan2", label: "轎車 (2人2件手)" },
                       { id: "suv4", label: "SUV/MPV (4人4件手)" },
@@ -337,7 +362,7 @@ export default function Booking() {
                       <Button
                         key={car.id}
                         variant={selectedOptions.carType === car.id ? "default" : "outline"}
-                        className={`w-full ${
+                        className={`px-6 ${
                           selectedOptions.carType === car.id
                             ? "bg-[#0F1F3F] text-white"
                             : "border-gray-200 hover:border-[#0F1F3F]"
@@ -352,7 +377,7 @@ export default function Booking() {
 
                 <div>
                   <h4 className="mb-2">司機語言能力</h4>
-                  <div className="space-y-2">
+                  <div className="inline-flex flex-wrap gap-2"> {/* Changed to inline-flex */}
                     {[
                       { id: "local", label: "僅會地話" },
                       { id: "chinese", label: "中文" },
@@ -362,7 +387,7 @@ export default function Booking() {
                       <Button
                         key={lang.id}
                         variant={selectedOptions.language === lang.id ? "default" : "outline"}
-                        className={`w-full ${
+                        className={`px-6 ${
                           selectedOptions.language === lang.id
                             ? "bg-[#0F1F3F] text-white"
                             : "border-gray-200 hover:border-[#0F1F3F]"
@@ -379,7 +404,7 @@ export default function Booking() {
                   <div className="text-2xl font-bold text-[#0F1F3F] text-center mb-4">
                     {calculatePrice("charter")}
                   </div>
-                  <Button 
+                  <Button
                     className="w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
                   >
                     立即預訂
