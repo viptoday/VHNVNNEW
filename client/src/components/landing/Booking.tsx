@@ -19,18 +19,35 @@ export default function Booking() {
   // 計算價格的函數
   const calculatePrice = () => {
     if (selectedService === "visa") {
-      return "34.49";
+      // 根據簽證有效期和類型計算價格
+      const basePrice = 34.49;
+      const validityFee = selectedOptions.validity === "90" ? 15 : 0;
+      const typeFee = selectedOptions.serviceType === "multiple" ? 20 : 0;
+      return (basePrice + validityFee + typeFee).toFixed(2);
     } else if (selectedService === "vip") {
-      return "88.00";
+      // 根據服務類型計算價格
+      const basePrice = 88.00;
+      const serviceFee = {
+        arrival: 0,
+        departure: 0,
+        both: 30
+      }[selectedOptions.serviceType] || 0;
+      return (basePrice + serviceFee).toFixed(2);
     } else if (selectedService === "pickup") {
+      // 根據車型和語言選擇計算價格
       const basePrice = 30.00;
       const carTypePrice = {
         sedan: 0,
-        suv: 10,
-        van: 20,
-        limo: 30
+        suv: 15,
+        van: 25,
+        limo: 50
       }[selectedOptions.carType] || 0;
-      return (basePrice + carTypePrice).toFixed(2);
+      const languageFee = {
+        local: 0,
+        chinese: 10,
+        english: 15
+      }[selectedOptions.language] || 0;
+      return (basePrice + carTypePrice + languageFee).toFixed(2);
     }
     return "價格根據選擇而定";
   };
@@ -54,7 +71,7 @@ export default function Booking() {
             <div className="space-y-8">
               <div>
                 <h3 className="text-lg font-semibold mb-4 text-[#0F1F3F]">選擇服務</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-4 gap-4">
                   {[
                     { id: "visa", label: "簽證服務" },
                     { id: "vip", label: "機場VIP通關" },
@@ -82,9 +99,9 @@ export default function Booking() {
 
                   {selectedService === "visa" && (
                     <div className="space-y-4">
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">請選擇：簽證類型</h4>
-                        <div className="grid grid-cols-1 gap-2">
+                        <div className="inline-flex">
                           <button
                             className="p-3 rounded-md bg-[#0F1F3F] text-white border-2 border-[#0F1F3F]"
                           >
@@ -93,9 +110,9 @@ export default function Booking() {
                         </div>
                       </div>
 
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">預訂類型</h4>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="inline-flex gap-2">
                           {[
                             { id: "single", label: "單次入境" },
                             { id: "multiple", label: "多次入境" }
@@ -115,9 +132,9 @@ export default function Booking() {
                         </div>
                       </div>
 
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">有效期</h4>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="inline-flex gap-2">
                           {[
                             { id: "30", label: "30天" },
                             { id: "90", label: "90天" }
@@ -141,9 +158,9 @@ export default function Booking() {
 
                   {selectedService === "vip" && (
                     <div className="space-y-4">
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">機場選擇</h4>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {[
                             { id: "hanoi", label: "河內機場" },
                             { id: "hochiminh", label: "胡志明市機場" },
@@ -165,9 +182,9 @@ export default function Booking() {
                         </div>
                       </div>
 
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">服務類型</h4>
-                        <div className="grid grid-cols-3 gap-2">
+                        <div className="inline-flex gap-2">
                           {[
                             { id: "arrival", label: "入境服務" },
                             { id: "departure", label: "出境服務" },
@@ -192,9 +209,9 @@ export default function Booking() {
 
                   {selectedService === "pickup" && (
                     <div className="space-y-4">
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">上車地點</h4>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {[
                             { id: "hanoi", label: "河內" },
                             { id: "hochiminh", label: "胡志明" },
@@ -216,9 +233,9 @@ export default function Booking() {
                         </div>
                       </div>
 
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">車型選擇</h4>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {[
                             { id: "sedan", label: "轎車 (3人座)" },
                             { id: "suv", label: "SUV/MPV (5人座)" },
@@ -240,9 +257,9 @@ export default function Booking() {
                         </div>
                       </div>
 
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">司機語言能力</h4>
-                        <div className="grid grid-cols-3 gap-2">
+                        <div className="inline-flex gap-2">
                           {[
                             { id: "local", label: "僅會地話" },
                             { id: "chinese", label: "中文" },
@@ -267,9 +284,9 @@ export default function Booking() {
 
                   {selectedService === "charter" && (
                     <div className="space-y-4">
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">城市</h4>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {[
                             { id: "hanoi", label: "河內" },
                             { id: "hochiminh", label: "胡志明" },
@@ -291,9 +308,9 @@ export default function Booking() {
                         </div>
                       </div>
 
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">車型</h4>
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {[
                             { id: "sedan2", label: "轎車 (2人2件手)" },
                             { id: "suv4", label: "SUV/MPV (4人4件手)" },
@@ -315,9 +332,9 @@ export default function Booking() {
                         </div>
                       </div>
 
-                      <div>
+                      <div className="flex flex-col gap-2">
                         <h4 className="mb-2">司機語言能力</h4>
-                        <div className="grid grid-cols-3 gap-2">
+                        <div className="inline-flex gap-2">
                           {[
                             { id: "local", label: "僅會地話" },
                             { id: "chinese", label: "中文" },
