@@ -1,9 +1,15 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+import { translations } from "@/locales/translations";
+
 export default function GlobalReach() {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   return (
     <section className="bg-primary text-white text-center py-8">
       <div className="container mx-auto px-4">
         <p className="text-lg">
-          我們提供 65+ 國家的高端旅遊服務，越南是我們的專業領域之一
+          {t.globalReach.text}
         </p>
       </div>
     </section>

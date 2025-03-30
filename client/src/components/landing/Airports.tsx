@@ -1,3 +1,6 @@
+import { useLanguage } from "@/contexts/LanguageContext";
+import { translations } from "@/locales/translations";
+
 const airports = [
   {
     name: "河內 (Hanoi)",
@@ -12,7 +15,7 @@ const airports = [
     description: "越南最大城市，活力四射的商業與文化中心"
   },
   {
-    name: "磨杵 (Mocbai)",
+    name: "木排 (Mocbai)",
     description: "VIP 簽證特區，便捷的出入境服務"
   },
   {
@@ -22,6 +25,9 @@ const airports = [
 ];
 
 export default function Airports() {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   return (
     <section className="py-20 bg-[#F8F9FC]">
       <div className="container mx-auto px-4">
@@ -29,15 +35,15 @@ export default function Airports() {
           <h2 className="text-4xl font-bold text-primary mb-4 relative pb-4
             after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2
             after:w-20 after:h-1 after:bg-[#D2973F]">
-            全越南機場 VIP 服務網絡
+            {t.airports.title}
           </h2>
           <p className="text-gray-600 text-lg">
-            無論您從哪個城市進入越南，VIPTODAY 都能為您提供無縫貴賓服務
+            {t.airports.description}
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-          {airports.map((airport, index) => (
+          {t.airports.list.map((airport, index) => (
             <div key={index} 
               className="bg-white p-8 rounded-lg shadow-md relative overflow-hidden
               hover:translate-y-[-5px] transition-all duration-300 group">

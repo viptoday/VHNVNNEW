@@ -1,5 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { translations } from "@/locales/translations";
 
 const services = [
   {
@@ -18,7 +20,6 @@ const services = [
     features: [
       "專享 VIP 通道，無需排隊",
       "專人協助辦理入境手續",
-      "優先行李處理服務",
       "入境即享尊貴待遇"
     ]
   },
@@ -33,7 +34,7 @@ const services = [
     ]
   },
   {
-    title: "木排遊覽",
+    title: "越南觀光",
     image: "https://images.unsplash.com/photo-1566073771259-6a8506099945",
     features: [
       "精選景點遊覽路線",
@@ -65,6 +66,9 @@ const services = [
 ];
 
 export default function Services() {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
@@ -72,15 +76,15 @@ export default function Services() {
           <h2 className="text-4xl font-bold mb-6 relative pb-4
             after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2
             after:w-20 after:h-1 after:bg-[#D4B254] text-[#0F1F3F]">
-            越南頂級旅遊服務
+            {t.services.title}
           </h2>
           <p className="text-lg text-gray-600">
-            VIPTODAY 為您提供全方位的越南旅遊解決方案，讓您的旅程輕鬆愜意，盡享尊貴體驗
+            {t.services.description}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
+          {t.services.items.map((service, index) => (
             <Card key={index} className="overflow-hidden hover:translate-y-[-10px] transition-all duration-300
               hover:shadow-xl border-[#E5E7EB] hover:border-[#0F1F3F]">
               <div 
@@ -102,7 +106,7 @@ export default function Services() {
                     className="w-full bg-[#0F1F3F] hover:bg-[#1A2F4F] text-white"
                     onClick={() => window.location.href = '#booking'}
                   >
-                    預約服務
+                    {t.services.bookNow}
                   </Button>
                 </div>
               </CardContent>

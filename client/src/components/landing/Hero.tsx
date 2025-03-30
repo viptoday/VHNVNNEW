@@ -1,6 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { translations } from "@/locales/translations";
 
 export default function Hero() {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   return (
     <section className="relative h-[80vh] flex items-center">
       <div 
@@ -12,18 +17,19 @@ export default function Hero() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-2xl text-white space-y-6 ml-[5%]">
-          <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-            越南 | 體驗超越想像的頂級旅遊
+          <h1 className="text-5xl md:text-6xl font-bold leading-[1.2] whitespace-pre tracking-normal">
+            {t.hero.title}
           </h1>
           <p className="text-xl opacity-90">
-            從簽證安排到專屬接送，從貴賓通關到量身定制的旅遊體驗，我們打造無與倫比的越南之旅
+            {t.hero.description}
           </p>
           <Button 
             size="lg"
             className="bg-[#C4A052] hover:bg-[#D4B254] hover:translate-y-[-3px] transition-all duration-300
             text-white font-semibold tracking-wider uppercase shadow-lg"
+            onClick={() => window.location.href = '#booking'}
           >
-            探索我們的服務
+            {t.hero.button}
           </Button>
         </div>
       </div>

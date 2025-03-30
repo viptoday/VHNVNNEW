@@ -32,9 +32,11 @@ export default function ServiceSection() {
           <h2 className="text-4xl font-bold text-primary mb-4 relative pb-4 after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:bg-[#D2973F]">
             越南頂級旅遊服務
           </h2>
-          <p className="text-gray-600 text-lg">
-            VIPTODAY 為您提供全方位的越南旅遊解決方案，讓您的旅程輕鬆愜意，盡享尊貴體驗
-          </p>
+          <div className="flex justify-center">
+            <p className="text-gray-600 text-lg whitespace-nowrap">
+              VIPTODAY 為您提供全方位的越南旅遊解決方案，讓您的旅程輕鬆愜意，盡享尊貴體驗
+            </p>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
